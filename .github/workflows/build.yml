@@ -49,7 +49,7 @@ jobs:
       - name: Build base image
         run: |
           docker build \
-            -t jsmrcaga/plasma:${{ steps.base-tag.outputs.version }} \
+            -t fkleon/plasma:${{ steps.base-tag.outputs.version }} \
             --platform linux/amd64 \
             --build-arg=VERSION=${{ steps.base-tag.outputs.version }} \
             --build-arg=SUNSHINE_USERNAME=plasma \
@@ -60,12 +60,12 @@ jobs:
       - name: Publish base image
         if: ${{ github.event_name == 'release' }}
         run: |
-          docker tag jsmrcaga/plasma:${{ steps.base-tag.outputs.version }} jsmrcaga/plasma:latest
-          docker push jsmrcaga/plasma --all-tags
+          docker tag fkleon/plasma:${{ steps.base-tag.outputs.version }} fkleon/plasma:latest
+          docker push fkleon/plasma --all-tags
 
       - name: Save image
         if: ${{ github.event_name == 'pull_request' }}
-        run: docker save -o plasma-cache.tar jsmrcaga/plasma:${{ steps.base-tag.outputs.version }}
+        run: docker save -o plasma-cache.tar fkleon/plasma:${{ steps.base-tag.outputs.version }}
 
       - name: Cache image
         if: ${{ github.event_name == 'pull_request' }}
@@ -115,7 +115,7 @@ jobs:
           docker-password: ${{ secrets.DOCKER_PASSWORD }}
           version: ${{ needs.build-plasma-base.outputs.base-version }}-${{ matrix.gpu-type.gpu }}-${{ matrix.gpu-type.driver }}
           # This, not being 'local', will prevent the action from building a base image
-          plasma-base: jsmrcaga/plasma
+          plasma-base: fkleon/plasma
           plasma-version: ${{ needs.build-plasma-base.outputs.base-version }}
           gpu: ${{ matrix.gpu-type.gpu }}
           amd-gcn-version: ${{ matrix.gpu-type.driver }}
