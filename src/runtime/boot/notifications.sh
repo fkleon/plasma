@@ -4,7 +4,7 @@ set -e
 
 if [[ -z "$TELEGRAM_CHAT_ID" ]]; then
 	console_debug "Telegram not configured"
-	exit 0
+	return 0
 fi
 
 
@@ -19,7 +19,7 @@ if [[ -n "$TELEGRAM_BOT_TOKEN" ]]; then
 		-X POST \
 		-H "Content-Type: application/json" \
 		-d "{\"chat_id\":\"$TELEGRAM_CHAT_ID\", \"text\": \"$text\", \"parse_mode\": \"MarkdownV2\"}"
-	exit 0
+	return 0
 fi
 
 # We are using plasma-bot
