@@ -39,6 +39,7 @@ RUN apt-get update && \
 		# X stuff
 		x11-xserver-utils \
 		xserver-xorg-core \
+		xserver-xorg-video-dummy \
 		# X input
 		dbus-x11 \
 		x11-xkb-utils \
