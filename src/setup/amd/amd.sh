@@ -37,11 +37,10 @@ apt-get install -y --no-install-recommends -t trixie-backports \
 	libgl1-mesa-dri \
 	libgl1-mesa-dri:i386 \
 	mesa-vulkan-drivers:i386 \
-	mesa-vulkan-drivers 1> $STDOUT 2> $STDERR
-	# radeontop \
-	# libvulkan1 \
-	# libvulkan1:i386 \
-	# vulkan-tools
+	mesa-vulkan-drivers \
+	libvulkan1 \
+	libvulkan1:i386 \
+	1> $STDOUT 2> $STDERR
 
 # Clean up
 apt-get clean autoclean -y && \
