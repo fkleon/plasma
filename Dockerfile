@@ -1,6 +1,6 @@
-# debian:bookworm-slim
+# debian:trixie-slim
 # amd64
-FROM debian@sha256:4b50eb66f977b4062683ff434ef18ac191da862dbe966961bc11990cf5791a8d
+FROM debian@sha256:28de0877c2189802884ccd20f15ee41c203573bd87bb6b883f5f46362d24c5c2
 
 ARG AUTHOR="Jo Colina <@jsmrcaga>"
 ARG VERSION=v0.0.0-dev
@@ -49,9 +49,9 @@ RUN apt-get update && \
 		xserver-xorg-input-libinput \
 		xserver-xorg-legacy \
 		# Allows testing graphics
-		xfishtank \
 		glmark2 \
 		xcvt \
+		vulkan-tools \
 		# libgbm1 is needed for sunshine but for some reason does not
 		# come with the base sunshine image
 		libgbm1 \
@@ -61,9 +61,9 @@ RUN apt-get update && \
 	apt-get autoremove -y && \
 	rm -rf /var/lib/apt/lists/* /var/tmp/*
 
-COPY --from=lizardbyte/sunshine:v2025.426.10137-debian-bookworm /sunshine.deb /plasma/sunshine.deb
+COPY --from=lizardbyte/sunshine:v2026.623.175142-debian-trixie /sunshine.deb /plasma/sunshine.deb
 
-# @see https://github.com/LizardByte/Sunshine/blob/3de3c299b23f64909bd6b3e42626ec818b0221d6/docker/debian-bookworm.dockerfile#L70
+# @see https://github.com/LizardByte/Sunshine/blob/v2026.619.155209/docker/debian-trixie.dockerfile#L99
 RUN apt-get update && \
 	apt-get install -y --no-install-recommends /plasma/sunshine.deb && \
 	apt-get clean autoclean -y && \
@@ -150,13 +150,13 @@ COPY ./config/sunshine /home/default/.config/sunshine
 #   * Order of operations is extramely important here
 #   * non-free-firmware is a small optimization for the nvidia image
 RUN \
-	echo "deb http://deb.debian.org/debian/ bookworm main contrib non-free non-free-firmware" >> /etc/apt/sources.list && \
-	echo "deb http://deb.debian.org/debian/ bookworm-backports main contrib non-free non-free-firmware" >> /etc/apt/sources.list.d/backports.list && \
+	echo "deb http://deb.debian.org/debian/ trixie main contrib non-free non-free-firmware" >> /etc/apt/sources.list && \
+	echo "deb http://deb.debian.org/debian/ trixie-backports main contrib non-free non-free-firmware" >> /etc/apt/sources.list.d/backports.list && \
 	dpkg --add-architecture i386 && \
 	apt-get update && \
 
 	# Install GL, Mesa & Vulkan drivers from backports
-	apt-get install -y --no-install-recommends -t bookworm-backports \
+	apt-get install -y --no-install-recommends -t trixie-backports \
 		# this includes libgbm.so.1 32bit, otherwise steam dies
 		libgbm-dev:i386 \
 		libegl1:amd64 \
@@ -168,11 +168,11 @@ RUN \
 		mesa-vulkan-drivers:amd64 \
 		mesa-vulkan-drivers:i386 \
 		libdrm-amdgpu1:amd64 \
-		libdrm-amdgpu1:i386 && \
+		libdrm-amdgpu1:i386 \
+		gamescope && \
 
 	# Install rest from normal repo
 	apt-get install -y --no-install-recommends \
-		gamescope \
 		# Some necessities for Steam
 		xfonts-base \
 		msttcorefonts \

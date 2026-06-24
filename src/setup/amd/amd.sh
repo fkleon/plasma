@@ -28,7 +28,7 @@ fi
 # Install drivers
 dpkg --add-architecture i386
 apt-get update
-apt-get install -y --no-install-recommends -t bookworm-backports\
+apt-get install -y --no-install-recommends -t trixie-backports \
 	$driver_package \
 	firmware-amd-graphics \
 	mesa-utils \
