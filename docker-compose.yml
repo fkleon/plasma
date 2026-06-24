@@ -1,0 +1,37 @@
+services:
+  base:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        VERSION: trixie
+        SUNSHINE_USERNAME: plasma
+        SUNSHINE_PASSWORD: mellon
+        #PUID: 1000
+        #GUID: 1000
+        #LOCALE: en_US.UTF-8
+    image: fkleon/plasma:trixie
+    platform: linux/amd64
+  
+  amd:
+    build:
+      context: .
+      dockerfile: amd.Dockerfile
+      args:
+        PLASMA_BASE: fkleon/plasma
+        PLASMA_VERSION: trixie
+        AMD_GCN_VERSION: "5.0"
+        VERSION: trixie-amd-5.0
+    image: fkleon/plasma:trixie-amd
+    platform: linux/amd64
+
+  intel:
+    build:
+      context: .
+      dockerfile: intel.Dockerfile
+      args:
+        PLASMA_BASE: fkleon/plasma
+        PLASMA_VERSION: trixie
+        VERSION: trixie-intel
+    image: fkleon/plasma:trixie-intel
+    platform: linux/amd64
